@@ -17,17 +17,37 @@ namespace SafetyZoneAPI.Services
         }
         public virtual int DetermineCrimeRatingIndex(double rate)
         {
-            return 0;
+            if (rate < 162.4)
+            {
+                return 0;
+            }
+            else if (rate < 234.4)
+            {
+                return 1;
+            }
+            else if (rate < 414.2)
+            {
+                return 2;
+            }
+            else if (rate < 688.0)
+            {
+                return 3;   
+            }
+            else if (rate >= 688.0)
+            {
+                return 4;
+            }
+            return -1;
+
         }
-        public virtual string DetermineLga(double latitude, double longitude)
+        public virtual Dictionary<string, double> DetermineLga(double latitude, double longitude)
         {
+            var dictResult = new Dictionary<string, double>();
             SqlConnectionStringBuilder csBuilder;
             csBuilder = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["SafetyZone_dbConnectionString"].ConnectionString);
             using (SqlConnection conn = new SqlConnection(csBuilder.ToString()))
             {
                 var cmd = conn.CreateCommand();
-                //cmd.CommandType = System.Data.CommandType.Text;
-                //cmd.CommandText = "select top(1) * from lga ";
                 var point = string.Format("POINT({0} {1})", longitude, latitude);
                 cmd.CommandText =  @"
                     declare @p geometry;
@@ -35,19 +55,30 @@ namespace SafetyZoneAPI.Services
                     select TOP(1) * FROM SafetyZone_db.dbo.lga WHERE geom.STIsValid()=1 AND geom.STDistance(@p) IS NOT NULL
                     ORDER BY geom.STDistance(@p)";
                 cmd.Parameters.AddWithValue("@POINT", point);
-                //cmd.Parameters.AddWithValue("@longitude", longitude.ToString());
                 conn.Open();
                 var reader = cmd.ExecuteReader();
+                string lgaResult = "";
                 while (reader.Read())
                 {
-                    return reader[0].ToString();
+                    lgaResult = reader[0].ToString();
                 }
-                return null;
-                /*var query = "select TOP(1) * from lga";
-                using (var da = new SqlDataAdapter(query, conn))
+                reader.Close();
+                cmd = conn.CreateCommand();
+                cmd.CommandText = @"
+                    SELECT TOP(1) rate FROM dbo.crimedata 
+                    WHERE lga = @lgaResult
+                    ORDER BY LEN(lga) DESC
+                ";
+                cmd.Parameters.Add(new SqlParameter("@lgaResult", lgaResult));
+                double resultRate = 0;
+                reader = cmd.ExecuteReader();
+                while (reader.Read())
                 {
-
-                }*/
+                    resultRate = Double.Parse(reader[0].ToString());
+                }
+                dictResult[lgaResult] = resultRate;
+                return dictResult;
+                
             };
         }
         public virtual int InitialiseCrimeStatistics(Dictionary<string, double> valuesToInsert)

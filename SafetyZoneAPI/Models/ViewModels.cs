@@ -11,5 +11,6 @@ namespace SafetyZoneAPI.Models
         public double Long { get; set; }
         public string LGAName { get; set; }
         public int CrimeRatingIndex { get; set; }
+        public double Rate { get; set; }
     }
 }

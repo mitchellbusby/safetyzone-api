@@ -18,12 +18,15 @@ namespace SafetyZoneAPI.Controllers
         public CrimeDataViewModel Get(double latitude, double longitude)
         {
             var service = new CrimeDataService();
-            var lga = service.DetermineLga(latitude, longitude);
+            var lgaAndScore = service.DetermineLga(latitude, longitude);
+            var lga = lgaAndScore.First().Key;
+            var index = service.DetermineCrimeRatingIndex(lgaAndScore[lga]);
             return new CrimeDataViewModel() {
                 Lat = latitude,
                 Long = longitude,
                 LGAName = lga,
-                CrimeRatingIndex = 100
+                CrimeRatingIndex = index,
+                Rate = lgaAndScore[lga]
                 };
         }
         public async Task<HttpResponseMessage> Post()

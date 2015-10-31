@@ -16,8 +16,15 @@ namespace SafetyZoneAPI.Tests
             CrimeDataService dataService = new CrimeDataService();
             // Test using Ashfield data
             var result = dataService.DetermineCrimeRatingIndex(265.7);
-            Assert.AreEqual(0, result);
+            Assert.AreEqual(2, result);
         }
-
+        [TestMethod]
+        public void TestDetermineCrimeRatingForPenrith2015()
+        {
+            CrimeDataService dataService = new CrimeDataService();
+            // Test using Ashfield data
+            var result = dataService.DetermineCrimeRatingIndex(527.4);
+            Assert.AreEqual(3, result);
+        }
     }
 }
