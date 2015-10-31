@@ -13,29 +13,7 @@ namespace SafetyZoneAPI.Services
         
         public CrimeDataService()
         {
-            SqlConnectionStringBuilder csBuilder;
-            csBuilder = new SqlConnectionStringBuilder(ConfigurationManager.ConnectionStrings["SafetyZone_dbConnectionString"].ConnectionString);
-            //After you have built your connection string, you can use the SQLConnection class to connect the SQL Database server:
-            using (SqlConnection conn = new SqlConnection(csBuilder.ToString()))
-            {
-                var cmd = conn.CreateCommand();
-                cmd.CommandType = System.Data.CommandType.Text;
-                cmd.CommandText = "select top(1) * from lga";
-                conn.Open();
-                var reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    for (int i=0; i < reader.FieldCount; i++)
-                    {
-                        Console.WriteLine(reader[i]);
-                    }
-                } 
-                /*var query = "select TOP(1) * from lga";
-                using (var da = new SqlDataAdapter(query, conn))
-                {
-
-                }*/
-            };
+            
         }
         public virtual int DetermineCrimeRatingIndex(double rate)
         {
@@ -80,13 +58,14 @@ namespace SafetyZoneAPI.Services
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = @"DROP TABLE IF EXISTS crimedata;
-                                    CREATE TABLE crimedata (lga varchar(160) NOT NULL, rate float)";
+                cmd.CommandText = @"IF OBJECT_ID('dbo.crimedata', 'U') IS NOT NULL DROP TABLE dbo.crimedata;
+                                    CREATE TABLE dbo.crimedata (lga varchar(160) NOT NULL, rate float);
+                                    CREATE CLUSTERED INDEX myIndex ON dbo.crimedata (lga)";
                 var result = cmd.ExecuteNonQuery();
                 var populateData = new StringBuilder();
                 foreach (var value in valuesToInsert.Keys)
                 {
-                    populateData.Append(string.Format("INSERT INTO crimedata VALUES({0},{1})", value, valuesToInsert[value]));
+                    populateData.Append(string.Format("INSERT INTO dbo.crimedata VALUES('{0}',{1})", value, valuesToInsert[value]));
                 }
                 cmd = conn.CreateCommand();
                 cmd.CommandText = populateData.ToString();
