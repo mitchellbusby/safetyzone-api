@@ -1,0 +1,21 @@
+{
+    "environmentSettings": {
+        "webSite": {
+            "name": "SafetyZone",
+            "location": "Australia Southeast"
+        },
+        "databases": [
+            {
+                "connectionStringName": "SafetyZone",
+                "databaseName": "SafetyZone_db",
+                "serverName": "safetyzone",
+                "user": "devkillersharks",
+                "password": "Killersharks1",
+                "edition": "",
+                "size": "",
+                "collation": "",
+                "location": "Southeast Asia"
+            }
+        ]
+    }
+}

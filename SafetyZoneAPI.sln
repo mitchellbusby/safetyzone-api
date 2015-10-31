@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafetyZoneAPI", "SafetyZoneAPI\SafetyZoneAPI.csproj", "{C201E761-9C94-4B6F-AB17-4145B5E4432C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafetyZoneAPI.Tests", "SafetyZoneAPI.Tests\SafetyZoneAPI.Tests.csproj", "{874E00CA-364B-4D71-83DE-2292AF1E732D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublishScripts", "PublishScripts", "{D132411E-F9E2-4D74-B77E-16F6D75F3EC7}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\AzureVMPublishModule.psm1 = PublishScripts\AzureVMPublishModule.psm1
+		PublishScripts\Publish-WebApplicationVM.ps1 = PublishScripts\Publish-WebApplicationVM.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configurations", "Configurations", "{FD13962F-387B-432D-B732-6EDC7DA69C48}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\Configurations\SafetyZoneAPI-WAWS-dev.json = PublishScripts\Configurations\SafetyZoneAPI-WAWS-dev.json
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C201E761-9C94-4B6F-AB17-4145B5E4432C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C201E761-9C94-4B6F-AB17-4145B5E4432C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C201E761-9C94-4B6F-AB17-4145B5E4432C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C201E761-9C94-4B6F-AB17-4145B5E4432C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{874E00CA-364B-4D71-83DE-2292AF1E732D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{874E00CA-364B-4D71-83DE-2292AF1E732D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{874E00CA-364B-4D71-83DE-2292AF1E732D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{874E00CA-364B-4D71-83DE-2292AF1E732D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FD13962F-387B-432D-B732-6EDC7DA69C48} = {D132411E-F9E2-4D74-B77E-16F6D75F3EC7}
+	EndGlobalSection
+EndGlobal
